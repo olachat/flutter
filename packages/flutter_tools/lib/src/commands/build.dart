@@ -8,6 +8,7 @@ import '../android/android_sdk.dart';
 import '../base/file_system.dart';
 import '../base/logger.dart';
 import '../base/os.dart';
+import '../base/process.dart';
 import '../build_info.dart';
 import '../build_system/build_system.dart';
 import '../commands/build_linux.dart';
@@ -103,6 +104,14 @@ abstract class BuildSubCommand extends FlutterCommand {
   bool get reportNullSafety => true;
 
   bool get supported => true;
+  @override
+  Future<FlutterCommandResult> runCommand() async {
+    final RunResult? ret = await executePrebuildScript(fullRestart: false);
+    if ((ret?.exitCode ?? 0) != 0) {
+      return FlutterCommandResult.fail();
+    }
+    return FlutterCommandResult.success();
+  }
 
   /// Display a message describing the current null safety runtime mode
   /// that was selected.

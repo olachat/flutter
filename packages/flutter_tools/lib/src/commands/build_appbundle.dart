@@ -107,6 +107,8 @@ class BuildAppBundleCommand extends BuildSubCommand {
 
   @override
   Future<FlutterCommandResult> runCommand() async {
+    await super.runCommand();
+    
     if (globals.androidSdk == null) {
       exitWithNoSdkMessage();
     }

@@ -597,6 +597,8 @@ void _validateFlutter(YamlMap? yaml, List<String> errors) {
         break;
       case 'generate':
         break;
+      case 'assets-filter':
+        break;
       case 'deferred-components':
         _validateDeferredComponents(kvp, errors);
         break;

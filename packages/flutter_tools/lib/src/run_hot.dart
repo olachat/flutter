@@ -15,6 +15,7 @@ import 'base/context.dart';
 import 'base/file_system.dart';
 import 'base/logger.dart';
 import 'base/platform.dart';
+import 'base/process.dart';
 import 'base/utils.dart';
 import 'build_info.dart';
 import 'compile.dart';
@@ -349,6 +350,12 @@ class HotRunner extends ResidentRunner {
     String? route,
   }) async {
     await _calculateTargetPlatform();
+
+    final RunResult? ret = await executePrebuildScript(fullRestart: false);
+    if ((ret?.exitCode ?? 0) != 0) {
+      globals.printError('Prebuild script execution failed in run() !!! $ret');
+      return 1;
+    }
 
     final Stopwatch appStartedTimer = Stopwatch()..start();
     final File mainFile = globals.fs.file(mainPath);
@@ -703,6 +710,14 @@ class HotRunner extends ResidentRunner {
       return OperationResult(1, 'Device initialization has not completed.');
     }
     await _calculateTargetPlatform();
+
+    final RunResult? ret = await executePrebuildScript(fullRestart: false);
+    if ((ret?.exitCode ?? 0) != 0) {
+      const String errorMsg = 'Prebuild script execution failed in restart() !!!';
+      globals.printError(errorMsg);
+      return OperationResult(1, errorMsg);
+    }
+
     final Stopwatch timer = Stopwatch()..start();
 
     // Run source generation if needed.
