@@ -1122,9 +1122,10 @@ Future<RunResult?> executePrebuildScript({bool fullRestart = true}) async {
   
   final String intlToolPath = p.join(globals.fs.currentDirectory.path, 'tools', 'intl_cli', 'intl_cli');
   if (globals.fs.file(intlToolPath).existsSync()){
+    final List<String> script = globals.platform.isWindows ? <String>['python'] : <String>[];
     final List<String> extraArgs = fullRestart ? <String>['-c'] : <String>[];
       final RunResult ret = await globals.processUtils.run(
-      <String>[intlToolPath, '-p', globals.fs.currentDirectory.path, ...extraArgs],
+      <String>[...script, intlToolPath, '-p', globals.fs.currentDirectory.path, ...extraArgs],
       workingDirectory: globals.fs.currentDirectory.path,
     );
     return ret;
