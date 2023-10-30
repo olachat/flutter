@@ -619,6 +619,8 @@ abstract class _BuildIOSSubCommand extends BuildSubCommand {
 
   @override
   Future<FlutterCommandResult> runCommand() async {
+    await super.runCommand();
+
     defaultBuildMode = environmentType == EnvironmentType.simulator ? BuildMode.debug : BuildMode.release;
     final BuildInfo buildInfo = await cachedBuildInfo;
 

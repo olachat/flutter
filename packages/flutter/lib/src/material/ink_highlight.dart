@@ -43,15 +43,15 @@ class InkHighlight extends InteractiveInkFeature {
     required TextDirection textDirection,
     BoxShape shape = BoxShape.rectangle,
     double? radius,
-    BorderRadius? borderRadius,
-    super.customBorder,
+    BorderRadiusGeometry? borderRadius,
+    ShapeBorder? customBorder,
     RectCallback? rectCallback,
     super.onRemoved,
     Duration fadeDuration = _kDefaultHighlightFadeDuration,
   }) : _shape = shape,
        _radius = radius,
        _borderRadius = borderRadius ?? BorderRadius.zero,
-
+       _customBorder = customBorder ?? ShapeBorder.lerp(null, null, 0),
        _textDirection = textDirection,
        _rectCallback = rectCallback {
     _alphaController = AnimationController(duration: fadeDuration, vsync: controller.vsync)
@@ -68,7 +68,8 @@ class InkHighlight extends InteractiveInkFeature {
 
   final BoxShape _shape;
   final double? _radius;
-  final BorderRadius _borderRadius;
+  final BorderRadiusGeometry? _borderRadius;
+  final ShapeBorder? _customBorder;
   final RectCallback? _rectCallback;
   final TextDirection _textDirection;
 
@@ -113,10 +114,22 @@ class InkHighlight extends InteractiveInkFeature {
         canvas.drawCircle(rect.center, _radius ?? Material.defaultSplashRadius, paint);
       case BoxShape.rectangle:
         if (_borderRadius != BorderRadius.zero) {
+          Radius tl=Radius.zero, tr=Radius.zero, bl=Radius.zero, br=Radius.zero;
+          if (_borderRadius is BorderRadiusDirectional) {
+            tl = (_borderRadius as BorderRadiusDirectional).topStart;
+            tr = (_borderRadius as BorderRadiusDirectional).topEnd;
+            bl = (_borderRadius as BorderRadiusDirectional).bottomStart;
+            br = (_borderRadius as BorderRadiusDirectional).bottomEnd;
+          } else if (_borderRadius is BorderRadius) {
+            tl = (_borderRadius as BorderRadius).topLeft;
+            tr = (_borderRadius as BorderRadius).topRight;
+            bl = (_borderRadius as BorderRadius).bottomLeft;
+            br = (_borderRadius as BorderRadius).bottomRight;
+          }
           final RRect clipRRect = RRect.fromRectAndCorners(
             rect,
-            topLeft: _borderRadius.topLeft, topRight: _borderRadius.topRight,
-            bottomLeft: _borderRadius.bottomLeft, bottomRight: _borderRadius.bottomRight,
+            topLeft: tl, topRight: tr,
+            bottomLeft: bl, bottomRight: br,
           );
           canvas.drawRRect(clipRRect, paint);
         } else {
