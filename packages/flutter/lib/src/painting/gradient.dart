@@ -222,7 +222,7 @@ abstract class Gradient {
   /// The shader's transform will be resolved from the [transform] of this
   /// gradient.
   @factory
-  Shader createShader(Rect rect, { TextDirection? textDirection });
+  Shader createShader(Rect rect, { TextDirection? textDirection = TextDirection.ltr });
 
   /// Returns a new gradient with its properties scaled by the given factor.
   ///
@@ -426,7 +426,7 @@ class LinearGradient extends Gradient {
   final TileMode tileMode;
 
   @override
-  Shader createShader(Rect rect, { TextDirection? textDirection }) {
+  Shader createShader(Rect rect, { TextDirection? textDirection = TextDirection.ltr }) {
     return ui.Gradient.linear(
       begin.resolve(textDirection).withinRect(rect),
       end.resolve(textDirection).withinRect(rect),
@@ -699,7 +699,7 @@ class RadialGradient extends Gradient {
   final double focalRadius;
 
   @override
-  Shader createShader(Rect rect, { TextDirection? textDirection }) {
+  Shader createShader(Rect rect, { TextDirection? textDirection = TextDirection.ltr }) {
     return ui.Gradient.radial(
       center.resolve(textDirection).withinRect(rect),
       radius * rect.shortestSide,
@@ -968,7 +968,7 @@ class SweepGradient extends Gradient {
   final TileMode tileMode;
 
   @override
-  Shader createShader(Rect rect, { TextDirection? textDirection }) {
+  Shader createShader(Rect rect, { TextDirection? textDirection = TextDirection.ltr }) {
     return ui.Gradient.sweep(
       center.resolve(textDirection).withinRect(rect),
       colors, _impliedStops(), tileMode,

@@ -14,7 +14,7 @@ import 'colors.dart';
 // Values derived from https://developer.apple.com/design/resources/.
 const TextStyle _kDefaultTextStyle = TextStyle(
   inherit: false,
-  fontFamily: '.SF Pro Text',
+  fontFamily: 'PingFang SC',
   fontSize: 17.0,
   letterSpacing: -0.41,
   color: CupertinoColors.label,
@@ -28,7 +28,7 @@ const TextStyle _kDefaultTextStyle = TextStyle(
 // Values derived from https://developer.apple.com/design/resources/.
 const TextStyle _kDefaultActionTextStyle = TextStyle(
   inherit: false,
-  fontFamily: '.SF Pro Text',
+  fontFamily: 'PingFang SC',
   fontSize: 17.0,
   letterSpacing: -0.41,
   color: CupertinoColors.activeBlue,
@@ -51,7 +51,7 @@ const TextStyle _kDefaultTabLabelTextStyle = TextStyle(
 
 const TextStyle _kDefaultMiddleTitleTextStyle = TextStyle(
   inherit: false,
-  fontFamily: '.SF Pro Text',
+  fontFamily: 'PingFang SC',
   fontSize: 17.0,
   fontWeight: FontWeight.w600,
   letterSpacing: -0.41,
@@ -60,7 +60,7 @@ const TextStyle _kDefaultMiddleTitleTextStyle = TextStyle(
 
 const TextStyle _kDefaultLargeTitleTextStyle = TextStyle(
   inherit: false,
-  fontFamily: '.SF Pro Display',
+  fontFamily: 'PingFang SC',
   fontSize: 34.0,
   fontWeight: FontWeight.w700,
   letterSpacing: 0.41,
@@ -80,7 +80,7 @@ const TextStyle _kDefaultLargeTitleTextStyle = TextStyle(
 // * https://github.com/flutter/flutter/pull/65501#discussion_r486557093
 const TextStyle _kDefaultPickerTextStyle = TextStyle(
   inherit: false,
-  fontFamily: '.SF Pro Display',
+  fontFamily: 'PingFang SC',
   fontSize: 21.0,
   fontWeight: FontWeight.w400,
   letterSpacing: -0.6,
@@ -95,7 +95,7 @@ const TextStyle _kDefaultPickerTextStyle = TextStyle(
 // Value extracted from off-center labels. Centered labels have a font size of 25pt.
 const TextStyle _kDefaultDateTimePickerTextStyle = TextStyle(
   inherit: false,
-  fontFamily: '.SF Pro Display',
+  fontFamily: 'PingFang SC',
   fontSize: 21,
   fontWeight: FontWeight.normal,
   color: CupertinoColors.label,

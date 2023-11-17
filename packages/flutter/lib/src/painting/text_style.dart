@@ -34,6 +34,11 @@ const String _kColorBackgroundWarning = 'Cannot provide both a backgroundColor a
 // defaults set in the engine (eg, LibTxt's text_style.h, paragraph_style.h).
 const double _kDefaultFontSize = 14.0;
 
+List<String>? _sFontFamilyFallback = [];
+void TextStyleSetFontFamilyFallback(List<String>? fontFamilyFallback) {
+  _sFontFamilyFallback = fontFamilyFallback;   
+}
+
 // Examples can assume:
 // late BuildContext context;
 
@@ -589,7 +594,10 @@ class TextStyle with Diagnosticable {
   /// prefixed with 'packages/package_name/' (e.g. 'packages/cool_fonts/Roboto').
   /// The package name should be provided by the `package` argument in the
   /// constructor.
-  List<String>? get fontFamilyFallback => _package == null ? _fontFamilyFallback : _fontFamilyFallback?.map((String str) => 'packages/$_package/$str').toList();
+  List<String>? get fontFamilyFallback {
+    List<String>? fallbackFontFamily = _package == null ? _fontFamilyFallback : _fontFamilyFallback?.map((String str) => 'packages/$_package/$str').toList();
+    return fallbackFontFamily ?? _sFontFamilyFallback; 
+  } 
   final List<String>? _fontFamilyFallback;
 
   // This is stored in order to prefix the fontFamilies in _fontFamilyFallback

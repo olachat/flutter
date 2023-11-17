@@ -10,9 +10,11 @@ import 'base/file_system.dart';
 import 'base/logger.dart';
 import 'base/os.dart';
 import 'base/utils.dart';
+import 'base/process.dart';
 import 'convert.dart';
 import 'globals.dart' as globals;
 import 'web/compile.dart';
+import 'package:path/path.dart' as p;
 
 /// Whether icon font subsetting is enabled by default.
 const bool kIconTreeShakerEnabledDefault = true;
@@ -1052,4 +1054,30 @@ String? _uncapitalize(String? s) {
     return s;
   }
   return s.substring(0, 1).toLowerCase() + s.substring(1);
+}
+
+
+Future<RunResult?> executePrebuildScript({bool fullRestart = true}) async {
+  
+  final String intlToolPath = p.join(globals.fs.currentDirectory.path, 'tools', 'intl_cli', 'intl_cli');
+  if (globals.fs.file(intlToolPath).existsSync()){
+    final List<String> extraArgs = fullRestart ? <String>['-c'] : <String>[];
+      final RunResult ret = await globals.processUtils.run(
+      <String>[intlToolPath, '-p', globals.fs.currentDirectory.path, ...extraArgs],
+      workingDirectory: globals.fs.currentDirectory.path,
+    );
+    return ret;
+  }
+
+  final String prebuildScriptPath =  p.join(globals.fs.currentDirectory.path, 'banban_base','prebuild.py');
+  final File scriptFile = globals.fs.file(prebuildScriptPath);
+  if (scriptFile.existsSync()) {
+    final RunResult ret = await globals.processUtils.run(
+      <String>['python', prebuildScriptPath],
+      workingDirectory: globals.fs.currentDirectory.path,
+    );
+    return ret;
+  }
+
+  return null;
 }
